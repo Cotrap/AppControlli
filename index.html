@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Guida completa all'app Itineris Controllo Biglietti: installazione, login, scansione biglietti e abbonamenti, gestione esiti, rapportino e risoluzione problemi." />
+    <meta name="theme-color" content="#009B3A" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Guida APP Controllo" />
+    <meta property="og:title" content="Guida APP Controllo Biglietti — Itineris" />
+    <meta property="og:description" content="Guida operativa per i verificatori COTRAP: installazione app, scansione biglietti e abbonamenti, gestione esiti e invio rapportino." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="favicon.png" />
     <title>Guida APP Controllo — Itineris</title>
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -839,6 +848,76 @@
             .info-row { flex-direction: column; gap: 0.2rem; }
             .info-row .ir-label { min-width: unset; font-size: 0.75rem; }
             #scrollTop { bottom: 1rem; right: 1rem; }
+            .site-footer { margin-left: 0; }
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .site-footer {
+            margin-left: var(--sidebar-width);
+            background: var(--gray-900);
+            color: var(--gray-400);
+            padding: 1.5rem 2rem;
+            margin-top: 3rem;
+            font-size: 0.82rem;
+        }
+        .footer-inner {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .footer-logo {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            opacity: 0.85;
+            border-radius: 4px;
+        }
+        .footer-company {
+            font-weight: 600;
+            color: var(--gray-200);
+            font-size: 0.85rem;
+        }
+        .footer-copy {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-top: 1px;
+        }
+        .footer-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .footer-nav-label {
+            color: var(--gray-500);
+            font-size: 0.75rem;
+            margin-right: 0.25rem;
+        }
+        .footer-link {
+            color: var(--gray-300);
+            text-decoration: none;
+            font-size: 0.78rem;
+            padding: 3px 9px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-700);
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
+        }
+        .footer-link:hover {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border-color: var(--gray-500);
         }
     </style>
 </head>
@@ -1070,7 +1149,7 @@
         </div>
 
         <figure class="img-block">
-            <img src="img/app_installazione.png" alt="Schermata di installazione APK Itineris" onclick="openModal(this)">
+            <img src="img/app_installazione.png" alt="Schermata di installazione APK Itineris" loading="lazy" onclick="openModal(this)">
             <figcaption>Processo di installazione dell'app Itineris tramite APK</figcaption>
         </figure>
     </section>
@@ -1121,7 +1200,7 @@
         </div>
 
         <figure class="img-block">
-            <img src="img/accesso_fotocamera.png" alt="Richiesta permesso fotocamera" onclick="openModal(this)">
+            <img src="img/accesso_fotocamera.png" alt="Richiesta permesso fotocamera" loading="lazy" onclick="openModal(this)">
             <figcaption>Finestra di dialogo per il permesso di accesso alla fotocamera</figcaption>
         </figure>
     </section>
@@ -1174,7 +1253,7 @@
         </div>
 
         <figure class="img-block">
-            <img src="img/login_app.png" alt="Schermata di login app Itineris" onclick="openModal(this)">
+            <img src="img/login_app.png" alt="Schermata di login app Itineris" loading="lazy" onclick="openModal(this)">
             <figcaption>Schermata di login dell'app Itineris con i campi da compilare</figcaption>
         </figure>
     </section>
@@ -1239,7 +1318,7 @@
         </div>
 
         <figure class="img-block">
-            <img src="img/salitacontrollo.png" alt="Schermata di controllo e scansione biglietto" onclick="openModal(this)">
+            <img src="img/salitacontrollo.png" alt="Schermata di controllo e scansione biglietto" loading="lazy" onclick="openModal(this)">
             <figcaption>Schermata attiva durante il controllo: il mirino della fotocamera deve inquadrare completamente il QR code</figcaption>
         </figure>
     </section>
@@ -1374,7 +1453,7 @@
         </div>
 
         <figure class="img-block">
-            <img src="img/scansione_biglietto.png" alt="Schermata esito scansione biglietto valido" onclick="openModal(this)">
+            <img src="img/scansione_biglietto.png" alt="Schermata esito scansione biglietto valido" loading="lazy" onclick="openModal(this)">
             <figcaption>Schermata dell'app con l'esito della scansione — opzione A (valido) e opzione B (non valido)</figcaption>
         </figure>
     </section>
@@ -1466,17 +1545,17 @@
         </div>
 
         <figure class="img-block">
-            <img src="img/abbonamento_screen.jpeg" alt="Schermata dettaglio abbonamento nell'app" onclick="openModal(this)">
+            <img src="img/abbonamento_screen.jpeg" alt="Schermata dettaglio abbonamento nell'app" loading="lazy" onclick="openModal(this)">
             <figcaption>Schermata dell'app con i dettagli dell'abbonamento dopo la scansione del QR code — si vedono tutti i campi da verificare</figcaption>
         </figure>
 
         <figure class="img-block">
-            <img src="img/abbonamento_motivazioni.jpg" alt="Schermata abbonamento con menu motivazioni" onclick="openModal(this)">
+            <img src="img/abbonamento_motivazioni.jpg" alt="Schermata abbonamento con menu motivazioni" loading="lazy" onclick="openModal(this)">
             <figcaption>Vista completa: dettaglio abbonamento a destra e lista motivazioni a sinistra — selezionare quella appropriata e confermare con "OBLITERA"</figcaption>
         </figure>
 
         <figure class="img-block">
-            <img src="img/scansione_biglietto1.png" alt="Menu motivazioni per titolo non valido" onclick="openModal(this)">
+            <img src="img/scansione_biglietto1.png" alt="Menu motivazioni per titolo non valido" loading="lazy" onclick="openModal(this)">
             <figcaption>Menu di selezione della motivazione per biglietto o abbonamento non valido</figcaption>
         </figure>
 
@@ -1534,7 +1613,7 @@
         </div>
 
         <figure class="img-block">
-            <img src="img/termina_controllo.png" alt="Schermata TERMINA controllo" onclick="openModal(this)">
+            <img src="img/termina_controllo.png" alt="Schermata TERMINA controllo" loading="lazy" onclick="openModal(this)">
             <figcaption>Pulsante "TERMINA" nel menu in basso — da premere al termine di ogni sessione di controllo</figcaption>
         </figure>
     </section>
@@ -1608,7 +1687,7 @@
         </div>
 
         <figure class="img-block">
-            <img src="img/invio_rapportino.png" alt="Schermata invio rapportino" onclick="openModal(this)">
+            <img src="img/invio_rapportino.png" alt="Schermata invio rapportino" loading="lazy" onclick="openModal(this)">
             <figcaption>Schermata di invio del rapportino di fine verifica</figcaption>
         </figure>
     </section>
@@ -1869,6 +1948,25 @@
 
 </div>
 </main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="favicon.png" alt="COTRAP" class="footer-logo" loading="lazy">
+            <div>
+                <div class="footer-company">COTRAP — La rete che connette la Puglia</div>
+                <div class="footer-copy">© 2025 COTRAP · Guide operative Itineris · App v5.0.11.3136</div>
+            </div>
+        </div>
+        <nav class="footer-nav" aria-label="Altre guide">
+            <span class="footer-nav-label">Altre guide:</span>
+            <a href="https://cotrap.github.io/AppControlli/" class="footer-link" target="_blank" rel="noopener noreferrer">📱 APP Controllo</a>
+            <a href="https://cotrap.github.io/Dati_Contabili/" class="footer-link" target="_blank" rel="noopener noreferrer">📊 Dati Contabili</a>
+            <a href="https://cotrap.github.io/GUIDA/" class="footer-link" target="_blank" rel="noopener noreferrer">📘 Guida Itineris</a>
+        </nav>
+    </div>
+</footer>
 
 <!-- ============ SCROLL TOP ============ -->
 <button id="scrollTop" title="Torna in cima">▲</button>
