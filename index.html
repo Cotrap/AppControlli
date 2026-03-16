@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Guida completa all'app Itineris Controllo Biglietti: installazione, login, scansione, rapportino e risoluzione problemi." />
+    <meta name="description" content="Guida completa all'app Itineris Controllo Biglietti: installazione, login, scansione biglietti e abbonamenti, gestione esiti, rapportino e risoluzione problemi." />
     <title>Guida APP Controllo — Itineris</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +32,7 @@
             --gray-300: #cbd5e1;
             --gray-400: #94a3b8;
             --gray-500: #64748b;
+            --gray-600: #475569;
             --gray-700: #334155;
             --gray-800: #1e293b;
             --gray-900: #0f172a;
@@ -749,6 +750,43 @@
         }
 
         /* ============================================
+           TABELLA FLUSSO (nella sezione intro)
+           ============================================ */
+        .flow-steps .step-num {
+            background: var(--primary-dark);
+            font-size: 0.8rem;
+        }
+        .flow-steps .step-body strong {
+            color: var(--primary-dark);
+        }
+
+        /* ============================================
+           BADGE OBLITERA
+           ============================================ */
+        .badge-oblitera {
+            background: #fde8e8;
+            color: #c53030;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid #fca5a5;
+        }
+
+        /* ============================================
+           SEZIONE ABBONAMENTI — highlight box
+           ============================================ */
+        .abbonamento-highlight {
+            background: linear-gradient(135deg, #f0fdf4, #e8f7ee);
+            border: 1.5px solid #86efac;
+            border-radius: var(--radius-lg);
+            padding: 1.1rem 1.3rem;
+            margin: 1.25rem 0;
+            font-size: 0.875rem;
+        }
+        .abbonamento-highlight strong { color: var(--primary-dark); }
+
+        /* ============================================
            RESPONSIVE
            ============================================ */
         @media (max-width: 768px) {
@@ -765,7 +803,11 @@
             .content-wrapper { padding: 1.5rem 1rem 4rem; }
             .hero { padding: 1.75rem 1.25rem; }
             .hero h1 { font-size: 1.45rem; }
+            .hero-chips { gap: 0.35rem; }
+            .hero-chip { font-size: 0.72rem; }
             .esito-grid { grid-template-columns: 1fr; }
+            .info-row { flex-direction: column; gap: 0.2rem; }
+            .info-row .ir-label { min-width: unset; font-size: 0.75rem; }
             #scrollTop { bottom: 1rem; right: 1rem; }
         }
     </style>
@@ -798,8 +840,9 @@
         <a class="nav-item" href="#login"><span class="nav-item-icon">🔐</span>3. Login</a>
         <a class="nav-item" href="#scansione"><span class="nav-item-icon">📷</span>4. Scansione Biglietto</a>
         <a class="nav-item" href="#esiti"><span class="nav-item-icon">🔍</span>5. Esiti e Azioni</a>
-        <a class="nav-item" href="#fine-controllo"><span class="nav-item-icon">🏁</span>6. Fine Controllo</a>
-        <a class="nav-item" href="#rapportino"><span class="nav-item-icon">📨</span>7. Invio Rapportino</a>
+        <a class="nav-item" href="#abbonamenti"><span class="nav-item-icon">🎫</span>6. Controllo Abbonamenti</a>
+        <a class="nav-item" href="#fine-controllo"><span class="nav-item-icon">🏁</span>7. Fine Controllo</a>
+        <a class="nav-item" href="#rapportino"><span class="nav-item-icon">📨</span>8. Invio Rapportino</a>
 
         <div class="sidebar-section-label" style="margin-top:0.5rem;">Supporto</div>
         <a class="nav-item" href="#problemi"><span class="nav-item-icon">🛠️</span>Risoluzione Problemi</a>
@@ -820,12 +863,13 @@
     <div class="hero">
         <div class="hero-label">Guida Operativa Completa</div>
         <h1>APP Controllo Biglietti</h1>
-        <p>Tutto quello che serve per usare l'app <strong>Itineris</strong> durante le verifiche a bordo: installazione, login, scansione biglietti, gestione esiti e invio rapportino.</p>
+        <p>Tutto quello che serve per usare l'app <strong>Itineris</strong> durante le verifiche a bordo: installazione, login, scansione di <strong>biglietti e abbonamenti</strong>, gestione di tutti gli esiti possibili e invio del rapportino di fine turno.</p>
         <div class="hero-chips">
             <span class="hero-chip">📱 Solo Android</span>
             <span class="hero-chip">📷 Scansione QR</span>
+            <span class="hero-chip">🎫 Biglietti & Abbonamenti</span>
             <span class="hero-chip">📨 Rapportino automatico</span>
-            <span class="hero-chip">🔄 Sempre aggiornata</span>
+            <span class="hero-chip">🔄 Aggiornata apr. 2025</span>
         </div>
     </div>
 
@@ -841,27 +885,67 @@
             </div>
         </div>
 
-        <p>L'app <strong>Itineris</strong> è lo strumento ufficiale COTRAP per il controllo dei biglietti a bordo. Permette ai verificatori di scansionare il QR code di ogni biglietto, ricevere immediatamente l'esito della validità, gestire le eccezioni e inviare il rapportino di fine turno direttamente dall'app.</p>
+        <p>L'app <strong>Itineris</strong> è lo strumento ufficiale COTRAP per il controllo dei titoli di viaggio a bordo. Permette ai verificatori di scansionare il QR code di <strong>biglietti singoli e abbonamenti</strong>, ricevere immediatamente l'esito della validità, gestire tutte le situazioni di non conformità e inviare il rapportino di fine turno direttamente dall'app.</p>
 
         <div class="info-box">
             <div class="info-box-title">Informazioni Generali</div>
-            <div class="info-row"><span class="ir-label">Nome app</span><span class="ir-value">Itineris</span></div>
-            <div class="info-row"><span class="ir-label">Piattaforma</span><span class="ir-value"><span class="badge badge-android">Android</span> (solo Android)</span></div>
-            <div class="info-row"><span class="ir-label">Distribuzione</span><span class="ir-value">APK diretto (non da Play Store)</span></div>
-            <div class="info-row"><span class="ir-label">Funzione principale</span><span class="ir-value">Controllo biglietti tramite QR code</span></div>
-            <div class="info-row"><span class="ir-label">Aggiornamenti</span><span class="ir-value">Il link di download è sempre aggiornato all'ultima versione</span></div>
+            <div class="info-row"><span class="ir-label">Nome app</span><span class="ir-value">Itineris Controllo Biglietti</span></div>
+            <div class="info-row"><span class="ir-label">Piattaforma</span><span class="ir-value"><span class="badge badge-android">Android</span> — solo dispositivi Android</span></div>
+            <div class="info-row"><span class="ir-label">Distribuzione</span><span class="ir-value">APK diretto tramite link (non disponibile su Play Store)</span></div>
+            <div class="info-row"><span class="ir-label">Titoli controllabili</span><span class="ir-value">Biglietti singoli, abbonamenti (settimanali, mensili, ecc.)</span></div>
+            <div class="info-row"><span class="ir-label">Modalità di lettura</span><span class="ir-value">Scansione QR code tramite fotocamera del dispositivo</span></div>
+            <div class="info-row"><span class="ir-label">Versione guida</span><span class="ir-value">Aprile 2025 — aggiornata con tutte le motivazioni dell'app</span></div>
         </div>
 
         <div class="avviso avviso-info">
             <span class="avviso-icon">ℹ️</span>
-            <div>L'app <b>non è disponibile su Google Play Store</b>: viene distribuita come file APK tramite link diretto. Per questo motivo è necessario abilitare l'installazione da <em>fonti sconosciute</em> (vedi sezione Installazione).</div>
+            <div>L'app <b>non è disponibile su Google Play Store</b>: viene distribuita come file APK tramite link diretto fornito dall'azienda. Per installarla è necessario abilitare l'installazione da <em>fonti sconosciute</em> sul dispositivo (vedi sezione 1 — Installazione).</div>
         </div>
 
         <h3>Chi usa questa app?</h3>
         <ul class="checklist">
-            <li><strong>Verificatori / Controllori:</strong> eseguono il controllo dei biglietti sui passeggeri, inseriscono il comune di salita e discesa.</li>
-            <li><strong>Autisti (dove applicabile):</strong> possono utilizzare l'app per verificare la validità dei titoli di viaggio. Il campo <em>Comune di salita</em> potrebbe non essere richiesto.</li>
+            <li><strong>Verificatori / Controllori:</strong> eseguono il controllo dei titoli di viaggio sui passeggeri, inseriscono il comune di salita all'avvio e il comune di discesa al termine.</li>
+            <li><strong>Autisti (dove applicabile):</strong> possono utilizzare l'app per verificare la validità dei titoli. Il campo <em>Comune di salita/discesa</em> potrebbe non essere richiesto.</li>
         </ul>
+
+        <h3>Flusso operativo in sintesi</h3>
+        <div class="steps flow-steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-body">
+                    <strong>Login → inserisci credenziali e comune di salita</strong>
+                    <span>Email aziendale + password. Solo per verificatori: indicare il comune di salita.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-body">
+                    <strong>Scansiona il QR code di ogni titolo</strong>
+                    <span>Biglietto digitale o cartaceo, abbonamento: inquadra il QR code con la fotocamera.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-body">
+                    <strong>Leggi l'esito e conferma o segnala</strong>
+                    <span>Titolo valido → premi SÌ dopo aver verificato tratta e dati. Non valido → seleziona la motivazione dall'elenco.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-body">
+                    <strong>TERMINA il controllo → inserisci comune di discesa</strong>
+                    <span>Solo verificatori: indicare il comune di discesa prima di terminare la sessione.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-body">
+                    <strong>Invia il rapportino</strong>
+                    <span>Dalla Home → icona rapportino → icona busta → conferma con SÌ. Il file viene inviato via email all'ufficio competente.</span>
+                </div>
+            </div>
+        </div>
     </section>
 
     <hr class="divider">
@@ -878,7 +962,7 @@
             </div>
         </div>
 
-        <p>L'app si scarica come file <strong>APK</strong> dal sito ufficiale COTRAP. Il link è sempre aggiornato con l'ultima versione disponibile: non è necessario cercare altrove o installare versioni precedenti.</p>
+        <p>L'app si scarica come file <strong>APK</strong> tramite il link fornito dall'azienda oppure dal sito ufficiale COTRAP. Il link è sempre aggiornato con l'ultima versione disponibile: non è necessario cercare altrove o installare versioni precedenti.</p>
 
         <div class="link-cards">
             <a href="https://www.cotrap.it/app-controlli/" target="_blank" rel="noopener noreferrer" class="link-card">
@@ -886,11 +970,16 @@
                 <span class="lc-title">Scarica APP Controllo Biglietti — cotrap.it</span>
                 <span class="lc-arrow">→</span>
             </a>
+            <a href="https://itinerisprod.blob.core.windows.net/app-controllo-biglietto/4.4.10.1919/com.cotrap.appcontrollobiglietti.apk" target="_blank" rel="noopener noreferrer" class="link-card">
+                <span class="lc-icon">⬇️</span>
+                <span class="lc-title">Download diretto APK — versione 4.4.10.1919</span>
+                <span class="lc-arrow">→</span>
+            </a>
         </div>
 
-        <div class="avviso avviso-info">
-            <span class="avviso-icon">ℹ️</span>
-            <div><b>Importante:</b> Apri questo link <b>dal dispositivo Android</b> su cui vuoi installare l'app, non da un PC o altro dispositivo.</div>
+        <div class="avviso avviso-warning">
+            <span class="avviso-icon">⚠️</span>
+            <div><b>Apri dal dispositivo Android!</b> Tocca il link direttamente sul telefono su cui vuoi installare l'app. Se lo apri da PC, il download non funzionerà correttamente.</div>
         </div>
 
         <h3>Procedura di installazione</h3>
@@ -1098,14 +1187,27 @@
             </div>
         </div>
 
+        <div class="avviso avviso-warning">
+            <span class="avviso-icon">⚠️</span>
+            <div>
+                <b>Assicurarsi prima di scansionare:</b>
+                <ul style="margin-top:0.4rem; padding-left:1.1rem;">
+                    <li>Il QR code sia <strong>ben visibile e non danneggiato</strong></li>
+                    <li>L'<strong>illuminazione</strong> sia sufficiente (no controluce)</li>
+                    <li>La <strong>fotocamera</strong> non sia sporca o coperta</li>
+                    <li>Il <strong>dispositivo rimanga fermo</strong> durante la scansione</li>
+                </ul>
+            </div>
+        </div>
+
         <div class="avviso avviso-info">
             <span class="avviso-icon">ℹ️</span>
-            <div><b>Scansione difficoltosa?</b> Se il QR non viene letto: avvicina o allontana il telefono, migliora l'illuminazione, chiedi al passeggero di aumentare la luminosità dello schermo se è un biglietto digitale.</div>
+            <div><b>Scansione difficoltosa?</b> Prova ad avvicinarti o allontanarti di qualche centimetro. Se il biglietto è digitale su smartphone, chiedi al passeggero di aumentare la luminosità dello schermo e di non muovere il telefono. In caso di QR code stampato sbiadito o danneggiato, seleziona "Biglietto contraffatto" o "Altro" dopo aver tentato più volte.</div>
         </div>
 
         <figure class="img-block">
             <img src="img/salitacontrollo.png" alt="Schermata di controllo e scansione biglietto" onclick="openModal(this)">
-            <figcaption>Schermata attiva durante il controllo: inquadrare il QR code del biglietto</figcaption>
+            <figcaption>Schermata attiva durante il controllo: il mirino della fotocamera deve inquadrare completamente il QR code</figcaption>
         </figure>
     </section>
 
@@ -1123,12 +1225,12 @@
             </div>
         </div>
 
-        <p>Dopo la scansione del QR code, l'app restituisce uno dei seguenti esiti. Per ogni esito è prevista un'azione specifica da parte del verificatore.</p>
+        <p>Dopo la scansione del QR code, l'app restituisce uno dei seguenti esiti. La procedura si applica sia ai <strong>biglietti singoli</strong> che agli <strong>abbonamenti</strong>. Per ogni esito è prevista un'azione specifica da parte del verificatore.</p>
 
         <div class="esito-grid">
             <div class="esito-card valido">
-                <div class="esito-header">✅ Biglietto Valido</div>
-                <p>Il QR code è stato riconosciuto e il biglietto risulta regolare. Prima di confermare:</p>
+                <div class="esito-header">✅ Titolo Valido</div>
+                <p>Il QR code è riconosciuto e il titolo risulta regolare. Prima di confermare:</p>
                 <ul>
                     <li>Verifica che la <strong>tratta</strong> corrisponda al percorso in corso</li>
                     <li>Verifica che l'<strong>orario</strong> sia coerente</li>
@@ -1136,78 +1238,220 @@
                 </ul>
             </div>
             <div class="esito-card non-valido">
-                <div class="esito-header">❌ Biglietto Non Valido</div>
-                <p>Il biglietto non è accettabile. Occorre:</p>
+                <div class="esito-header">❌ Titolo Non Valido</div>
+                <p>Il titolo non è accettabile. Occorre:</p>
                 <ul>
                     <li>Premere <strong>"Azioni"</strong></li>
-                    <li>Selezionare la <strong>motivazione</strong> appropriata</li>
-                    <li>Confermare</li>
+                    <li>Selezionare la <strong>motivazione</strong> appropriata dall'elenco</li>
+                    <li>Confermare — seguirà procedimento sanzionatorio secondo le Condizioni Generali di Trasporto</li>
                 </ul>
             </div>
             <div class="esito-card eccezione">
                 <div class="esito-header">⚠️ Eccezione / Accettato a Bordo</div>
-                <p>In alcuni casi particolari (es. corsa saltata, problema tecnico) è possibile accettare il biglietto <em>su autorizzazione</em>. Seleziona <strong>"Accettato a bordo"</strong> e registra il motivo.</p>
+                <p>In casi particolari (es. corsa saltata per cause del vettore) è possibile accettare il titolo <em>su autorizzazione aziendale</em>. Seleziona <strong>"Accettato a bordo"</strong>.</p>
             </div>
         </div>
 
-        <h3>Motivazioni disponibili per biglietto non valido</h3>
-        <p>Quando premi "Azioni" su un biglietto non valido, l'app mostra un elenco di motivazioni. Scegli quella che descrive meglio la situazione:</p>
+        <div class="avviso avviso-warning">
+            <span class="avviso-icon">⚠️</span>
+            <div>
+                <b>Non confermare immediatamente!</b> Anche su un titolo marcato come valido, verifica sempre:
+                <ul style="margin-top:0.4rem; padding-left:1.1rem;">
+                    <li><strong>Tratta:</strong> il titolo deve coprire il percorso attuale</li>
+                    <li><strong>Orario:</strong> la validità temporale deve essere compatibile con la corsa in corso</li>
+                    <li><strong>Per abbonamenti:</strong> verifica anche l'intestatario e il numero tessera (vedi sezione successiva)</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>Motivazioni disponibili nell'app</h3>
+        <p>Quando premi <strong>"Azioni"</strong> su un titolo non valido, l'app mostra le seguenti motivazioni. Scegli quella che descrive meglio la situazione:</p>
 
         <div class="motivi-list">
             <div class="motivo-item">
                 <span class="mi-icon">🕐</span>
                 <div>
-                    <strong>Biglietto scaduto</strong>
-                    <span>Il biglietto è stato acquistato ma è fuori dal periodo di validità temporale.</span>
+                    <strong>Data e ora non valida</strong>
+                    <span>Il titolo di viaggio presenta una data di validità diversa da quella della corsa attuale.</span>
+                </div>
+            </div>
+            <div class="motivo-item">
+                <span class="mi-icon">🚌</span>
+                <div>
+                    <strong>Percorso non valido</strong>
+                    <span>Il percorso indicato sul titolo non corrisponde a quello della corsa che si sta controllando.</span>
+                </div>
+            </div>
+            <div class="motivo-item">
+                <span class="mi-icon">🪪</span>
+                <div>
+                    <strong>Tessera non valida</strong>
+                    <span>La tessera associata all'abbonamento non è valida o non corrisponde al titolo presentato.</span>
+                </div>
+            </div>
+            <div class="motivo-item">
+                <span class="mi-icon">✅</span>
+                <div>
+                    <strong>Accettato a bordo</strong>
+                    <span>Opzione da usare <em>solo su autorizzazione aziendale</em> in casi eccezionali (es. corsa precedente saltata per responsabilità del vettore). Viene tracciata nel rapportino.</span>
+                </div>
+            </div>
+            <div class="motivo-item">
+                <span class="mi-icon">🏢</span>
+                <div>
+                    <strong>Azienda non valida</strong>
+                    <span>Il titolo è emesso da un'azienda diversa da quella che gestisce la corsa in controllo.</span>
                 </div>
             </div>
             <div class="motivo-item">
                 <span class="mi-icon">🔄</span>
                 <div>
                     <strong>Biglietto già utilizzato</strong>
-                    <span>Il QR code risulta già stato scansionato in precedenza (doppio viaggio con lo stesso biglietto).</span>
+                    <span>Il QR code risulta già stato scansionato in precedenza (tentativo di riutilizzo dello stesso titolo).</span>
                 </div>
             </div>
             <div class="motivo-item">
-                <span class="mi-icon">🚌</span>
+                <span class="mi-icon">🚫</span>
                 <div>
-                    <strong>Tratta errata</strong>
-                    <span>Il biglietto è valido ma copre una tratta diversa da quella che il passeggero sta percorrendo.</span>
-                </div>
-            </div>
-            <div class="motivo-item">
-                <span class="mi-icon">❓</span>
-                <div>
-                    <strong>QR non valido / non riconosciuto</strong>
-                    <span>Il codice non appartiene al sistema Itineris o è stato alterato.</span>
+                    <strong>Biglietto contraffatto</strong>
+                    <span>Il titolo di viaggio risulta non originale o alterato.</span>
                 </div>
             </div>
             <div class="motivo-item">
                 <span class="mi-icon">🎫</span>
                 <div>
-                    <strong>Titolo non abilitato / sospeso</strong>
-                    <span>Il titolo di viaggio esiste ma non è attivo (es. abbonamento scaduto o sospeso).</span>
+                    <strong>Segnalare abbonamento</strong>
+                    <span>Invia una segnalazione all'azienda per bloccare il titolo di viaggio. Da utilizzare in caso di anomalie sull'abbonamento che richiedono verifica da parte dell'ufficio.</span>
+                </div>
+            </div>
+            <div class="motivo-item">
+                <span class="mi-icon">❓</span>
+                <div>
+                    <strong>Altro</strong>
+                    <span>Per situazioni non rientranti nelle categorie precedenti.</span>
                 </div>
             </div>
         </div>
 
-        <h3>Cosa verificare su un biglietto "Valido"</h3>
-        <div class="avviso avviso-warning">
-            <span class="avviso-icon">⚠️</span>
-            <div>
-                <b>Non confermare immediatamente!</b> Anche su un biglietto marcato come valido, è obbligatorio verificare manualmente:
-                <ul style="margin-top:0.4rem; padding-left:1.1rem;">
-                    <li><strong>Tratta:</strong> il biglietto deve coprire il percorso attuale (es. non può valere da A a B se il passeggero è su un mezzo da C a D)</li>
-                    <li><strong>Orario:</strong> verifica che l'orario di validità sia compatibile con quello della corsa in corso</li>
-                </ul>
-            </div>
-        </div>
-
         <h3>Caso speciale: "Accettato a bordo"</h3>
-        <p>L'opzione <strong>"Accettato a bordo"</strong> va usata <em>solo su esplicita autorizzazione</em> e quando il biglietto risulta non valido per una causa riconducibile all'azienda (es. corsa precedente saltata, guasto al sistema di vendita). Non va usata per coprire irregolarità dei passeggeri.</p>
+        <p>L'opzione <strong>"Accettato a bordo"</strong> va usata <em>solo su esplicita autorizzazione</em> dell'Azienda e quando il titolo risulta non valido per una causa riconducibile al vettore (es. corsa precedente saltata). Non va usata per coprire irregolarità dei passeggeri.</p>
         <div class="avviso avviso-error">
             <span class="avviso-icon">❌</span>
             <div><b>Uso improprio:</b> L'opzione "Accettato a bordo" viene tracciata nel rapportino e può essere soggetta a verifica da parte dell'ufficio. Usarla solo nei casi previsti e su autorizzazione.</div>
+        </div>
+
+        <figure class="img-block">
+            <img src="img/scansione_biglietto.png" alt="Schermata esito scansione biglietto valido" onclick="openModal(this)">
+            <figcaption>Schermata dell'app con l'esito della scansione — opzione A (valido) e opzione B (non valido)</figcaption>
+        </figure>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ==============================
+         CONTROLLO ABBONAMENTI
+         ============================== -->
+    <section class="section" id="abbonamenti">
+        <div class="section-header">
+            <div class="section-icon">🎫</div>
+            <div>
+                <div class="section-num">Passo 6</div>
+                <h2 class="section-title">Controllo degli Abbonamenti</h2>
+            </div>
+        </div>
+
+        <p>Quando si scansiona un <strong>abbonamento</strong> (settimanale, mensile, ecc.), l'app mostra una schermata di dettaglio con tutte le informazioni del titolo. Il verificatore deve controllare che i dati corrispondano prima di confermare la validità.</p>
+
+        <h3>Informazioni visualizzate per un abbonamento</h3>
+        <p>Dopo la scansione del QR code di un abbonamento, l'app mostra:</p>
+
+        <div class="info-box">
+            <div class="info-box-title">Schermata Abbonamento — Campi Visualizzati</div>
+            <div class="info-row">
+                <span class="ir-label">Numero abbonamento</span>
+                <span class="ir-value">Codice univoco del titolo (es. <code>1636116V</code>)</span>
+            </div>
+            <div class="info-row">
+                <span class="ir-label">Intestato a</span>
+                <span class="ir-value">Nome e cognome del titolare dell'abbonamento</span>
+            </div>
+            <div class="info-row">
+                <span class="ir-label">Corse totali / residue</span>
+                <span class="ir-value">Numero di corse previste e quelle ancora disponibili (es. 12 totali / 10 residue)</span>
+            </div>
+            <div class="info-row">
+                <span class="ir-label">Tipo abbonamento</span>
+                <span class="ir-value">Categoria (es. Extraurbano, Urbano, ecc.)</span>
+            </div>
+            <div class="info-row">
+                <span class="ir-label">Nome Azienda</span>
+                <span class="ir-value">Azienda emittente del titolo</span>
+            </div>
+            <div class="info-row">
+                <span class="ir-label">Titolo di viaggio</span>
+                <span class="ir-value">Tipologia (es. Abb. Sett./12)</span>
+            </div>
+            <div class="info-row">
+                <span class="ir-label">Da / A</span>
+                <span class="ir-value">Tratta di validità (es. Bari → Canosa di Puglia)</span>
+            </div>
+            <div class="info-row">
+                <span class="ir-label">Valido da / Valido al</span>
+                <span class="ir-value">Periodo di validità con data e ora di inizio e fine</span>
+            </div>
+            <div class="info-row">
+                <span class="ir-label">Tessera n.</span>
+                <span class="ir-value">Numero della tessera fisica associata all'abbonamento</span>
+            </div>
+        </div>
+
+        <h3>Cosa verificare su un abbonamento</h3>
+        <ul class="checklist">
+            <li><strong>Intestatario:</strong> il passeggero deve corrispondere al titolare dell'abbonamento. Chiedere un documento d'identità in caso di dubbio.</li>
+            <li><strong>Tessera:</strong> verificare che il numero tessera mostrato dall'app corrisponda alla tessera fisica presentata dal passeggero.</li>
+            <li><strong>Tratta (Da/A):</strong> la tratta dell'abbonamento deve coprire il percorso che il passeggero sta effettuando.</li>
+            <li><strong>Periodo di validità:</strong> controllare che la data attuale rientri nel periodo "Valido da / Valido al".</li>
+            <li><strong>Corse residue:</strong> verificare che ci siano ancora corse disponibili (residue &gt; 0).</li>
+            <li><strong>Azienda:</strong> l'azienda emittente deve corrispondere a quella che gestisce la corsa.</li>
+        </ul>
+
+        <div class="avviso avviso-warning">
+            <span class="avviso-icon">⚠️</span>
+            <div>
+                <b>Abbonamento intestato ad altri:</b> L'abbonamento è personale e non cedibile. Se il passeggero non corrisponde al nome indicato, selezionare <strong>"Tessera non valida"</strong> e procedere secondo le Condizioni Generali di Trasporto dell'Azienda.
+            </div>
+        </div>
+
+        <h3>Opzione "Segnalare abbonamento"</h3>
+        <p>Questa opzione è disponibile nel menu "Azioni" e consente di <strong>inviare una segnalazione all'ufficio</strong> affinché il titolo venga bloccato o verificato. Va utilizzata quando si rileva un'anomalia sull'abbonamento che non rientra nelle altre categorie di non validità (es. abbonamento sospetto, tessera dubbia, corrispondenza incerta con il titolare).</p>
+
+        <div class="avviso avviso-info">
+            <span class="avviso-icon">ℹ️</span>
+            <div>
+                <b>Segnalare abbonamento</b> non comporta un'azione immediata sul passeggero, ma invia una notifica all'azienda che potrà bloccare il titolo. Usare questa opzione ogni volta che si ha un dubbio fondato sull'autenticità o sull'utilizzo corretto dell'abbonamento.
+            </div>
+        </div>
+
+        <figure class="img-block">
+            <img src="img/abbonamento_screen.jpeg" alt="Schermata dettaglio abbonamento nell'app" onclick="openModal(this)">
+            <figcaption>Schermata dell'app con i dettagli dell'abbonamento dopo la scansione del QR code — si vedono tutti i campi da verificare</figcaption>
+        </figure>
+
+        <figure class="img-block">
+            <img src="img/abbonamento_motivazioni.jpg" alt="Schermata abbonamento con menu motivazioni" onclick="openModal(this)">
+            <figcaption>Vista completa: dettaglio abbonamento a destra e lista motivazioni a sinistra — selezionare quella appropriata e confermare con "OBLITERA"</figcaption>
+        </figure>
+
+        <figure class="img-block">
+            <img src="img/scansione_biglietto1.png" alt="Menu motivazioni per titolo non valido" onclick="openModal(this)">
+            <figcaption>Menu di selezione della motivazione per biglietto o abbonamento non valido</figcaption>
+        </figure>
+
+        <div class="avviso avviso-info">
+            <span class="avviso-icon">ℹ️</span>
+            <div>
+                <b>Pulsante "OBLITERA":</b> Dopo aver selezionato la motivazione, compare il pulsante <strong>OBLITERA</strong> che registra ufficialmente l'irregolarità nel sistema. Premere sempre OBLITERA per completare la procedura — senza questo passaggio la segnalazione non viene salvata nel rapportino.
+            </div>
         </div>
     </section>
 
@@ -1220,7 +1464,7 @@
         <div class="section-header">
             <div class="section-icon">🏁</div>
             <div>
-                <div class="section-num">Passo 6</div>
+                <div class="section-num">Passo 7</div>
                 <h2 class="section-title">Fine Controllo</h2>
             </div>
         </div>
@@ -1255,6 +1499,11 @@
             <span class="avviso-icon">ℹ️</span>
             <div><b>Non dimenticare TERMINA!</b> Se non chiudi la sessione, i dati di controllo potrebbero non venire salvati correttamente nel rapportino. Ricordati sempre di premere TERMINA a fine corsa.</div>
         </div>
+
+        <figure class="img-block">
+            <img src="img/termina_controllo.png" alt="Schermata TERMINA controllo" onclick="openModal(this)">
+            <figcaption>Pulsante "TERMINA" nel menu in basso — da premere al termine di ogni sessione di controllo</figcaption>
+        </figure>
     </section>
 
     <hr class="divider">
@@ -1266,7 +1515,7 @@
         <div class="section-header">
             <div class="section-icon">📨</div>
             <div>
-                <div class="section-num">Passo 7</div>
+                <div class="section-num">Passo 8</div>
                 <h2 class="section-title">Invio del Rapportino</h2>
             </div>
         </div>
@@ -1276,10 +1525,11 @@
         <h3>Cosa contiene il rapportino</h3>
         <ul class="checklist">
             <li>Data e ora del controllo</li>
-            <li>Nome del verificatore (account)</li>
-            <li>Comune di salita e discesa</li>
-            <li>Numero totale di biglietti scansionati</li>
-            <li>Dettaglio per ogni biglietto: esito, motivazione (se non valido), eventuale "Accettato a bordo"</li>
+            <li>Nome del verificatore (account email)</li>
+            <li>Comune di salita e comune di discesa</li>
+            <li>Numero totale di titoli scansionati (biglietti + abbonamenti)</li>
+            <li>Per ogni titolo: esito (valido / non valido), motivazione selezionata, eventuale "Accettato a bordo"</li>
+            <li>Segnalazioni abbonamento inviate durante il turno</li>
         </ul>
 
         <h3>Come inviare il rapportino</h3>
@@ -1432,22 +1682,100 @@
         <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">
                 <span class="fq-icon">❓</span>
-                <span>Il biglietto appare valido ma la tratta non corrisponde: cosa faccio?</span>
+                <span>Il titolo appare valido ma la tratta non corrisponde: cosa faccio?</span>
                 <i class="fq-arrow">▼</i>
             </div>
             <div class="faq-answer">
-                <p>Se il biglietto è tecnicamente valido ma la tratta non è quella corretta per la corsa in corso, <strong>non premere SÌ</strong>. Procedi così:</p>
+                <p>Se il titolo è tecnicamente valido ma la tratta non è quella corretta per la corsa in corso, <strong>non premere SÌ</strong>. Procedi così:</p>
                 <ul>
                     <li>Premi <strong>"Azioni"</strong> sulla schermata dell'esito</li>
-                    <li>Seleziona <strong>"Tratta errata"</strong> come motivazione</li>
+                    <li>Seleziona <strong>"Percorso non valido"</strong> come motivazione</li>
                     <li>Applica la procedura prevista per i passeggeri senza titolo valido per quella tratta</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="fq-icon">🎫</span>
+                <span>Il passeggero presenta un abbonamento intestato ad un'altra persona</span>
+                <i class="fq-arrow">▼</i>
+            </div>
+            <div class="faq-answer">
+                <p>L'abbonamento è un titolo personale e non cedibile. Se il nome mostrato dall'app non corrisponde al passeggero:</p>
+                <ul>
+                    <li>Chiedi un <strong>documento d'identità</strong> per confrontare con il nome "Intestato a" mostrato nell'app</li>
+                    <li>Se la persona non corrisponde, premi <strong>"Azioni"</strong> e seleziona <strong>"Tessera non valida"</strong></li>
+                    <li>Applica le Condizioni Generali di Trasporto dell'Azienda</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="fq-icon">🎫</span>
+                <span>L'abbonamento ha corse residue 0 o il periodo è scaduto</span>
+                <i class="fq-arrow">▼</i>
+            </div>
+            <div class="faq-answer">
+                <ul>
+                    <li>Se le <strong>corse residue sono 0</strong>: l'abbonamento è esaurito — seleziona <strong>"Data e ora non valida"</strong> oppure <strong>"Altro"</strong> a seconda della situazione</li>
+                    <li>Se la data odierna è fuori dal periodo "Valido da / Valido al": seleziona <strong>"Data e ora non valida"</strong></li>
+                    <li>In caso di dubbio sulla natura dell'anomalia, usa <strong>"Segnalare abbonamento"</strong> per notificare l'ufficio</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="fq-icon">🏢</span>
+                <span>L'abbonamento mostra un'azienda diversa da quella della corsa</span>
+                <i class="fq-arrow">▼</i>
+            </div>
+            <div class="faq-answer">
+                <ul>
+                    <li>Se il campo "Nome Azienda" dell'abbonamento non corrisponde all'azienda che gestisce la corsa, seleziona <strong>"Azienda non valida"</strong></li>
+                    <li>Applica la procedura prevista per i titoli non validi</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="fq-icon">📋</span>
+                <span>Ho dimenticato di premere TERMINA: il rapportino è comunque salvato?</span>
+                <i class="fq-arrow">▼</i>
+            </div>
+            <div class="faq-answer">
+                <p>Se la sessione non è stata terminata correttamente, i dati potrebbero essere incompleti o non inviati. Procedi così:</p>
+                <ul>
+                    <li>Apri l'app e verifica se la sessione è ancora attiva</li>
+                    <li>Se sì, premi <strong>TERMINA</strong> normalmente, inserisci il comune di discesa e procedi con l'invio del rapportino</li>
+                    <li>Se l'app mostra un rapportino già salvato, accedilo dalla Home e prova a inviarlo</li>
+                    <li>In caso di dubbio, contatta l'ufficio competente per comunicare il mancato invio</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="fq-icon">🔍</span>
+                <span>Il QR code viene letto ma l'app non mostra nessun esito</span>
+                <i class="fq-arrow">▼</i>
+            </div>
+            <div class="faq-answer">
+                <ul>
+                    <li>Verifica di avere una <strong>connessione internet attiva</strong> — l'app contatta il server per verificare il titolo</li>
+                    <li>Se sei in zona con scarsa copertura, attendi qualche secondo dopo la scansione</li>
+                    <li>Chiudi e riapri l'app, effettua di nuovo il login</li>
+                    <li>Se il problema persiste, contatta l'ufficio segnalando l'orario e il tipo di QR code scansionato</li>
                 </ul>
             </div>
         </div>
 
         <div class="avviso avviso-info">
             <span class="avviso-icon">ℹ️</span>
-            <div>Per problemi non risolti con le indicazioni sopra, contatta l'ufficio di supporto COTRAP. Descrivi il problema nel dettaglio: tipo di dispositivo, versione Android, messaggio di errore visualizzato.</div>
+            <div>Per problemi non risolti con le indicazioni sopra, contatta l'ufficio di supporto COTRAP. Fornisci queste informazioni: <strong>modello del dispositivo, versione Android, messaggio di errore visualizzato, orario in cui si è verificato il problema</strong>.</div>
         </div>
     </section>
 
@@ -1465,34 +1793,44 @@
             </div>
         </div>
 
-        <p>Video guide ufficiali per l'utilizzo dell'app Itineris Controllo Biglietti. Consigliati per chi si avvicina all'app per la prima volta.</p>
+        <p>Video guide ufficiali per l'utilizzo dell'app Itineris Controllo Biglietti. Consigliati per chi si avvicina all'app per la prima volta o deve configurare un nuovo dispositivo.</p>
 
+        <h3>🎥 Video Tutorial</h3>
         <div class="link-cards">
             <a href="https://youtu.be/Kyo_XAA1I1Y" target="_blank" rel="noopener noreferrer" class="link-card">
                 <span class="lc-icon">🎥</span>
-                <span class="lc-title">Video: Installazione App Itineris</span>
+                <span class="lc-title">Video: Come installare l'App Itineris</span>
                 <span class="lc-arrow">→</span>
             </a>
             <a href="https://youtu.be/y17vm4Jlz00" target="_blank" rel="noopener noreferrer" class="link-card">
                 <span class="lc-icon">🔐</span>
-                <span class="lc-title">Video: Impostazione Password</span>
+                <span class="lc-title">Video: Come impostare la password di accesso</span>
                 <span class="lc-arrow">→</span>
             </a>
             <a href="https://youtu.be/Bq565A9pGok" target="_blank" rel="noopener noreferrer" class="link-card">
                 <span class="lc-icon">👤</span>
-                <span class="lc-title">Video: Inserimento Controllori e Autisti</span>
+                <span class="lc-title">Video: Inserimento controllori e autisti dal pannello admin</span>
                 <span class="lc-arrow">→</span>
             </a>
+        </div>
+
+        <h3>📲 Download</h3>
+        <div class="link-cards">
             <a href="https://www.cotrap.it/app-controlli/" target="_blank" rel="noopener noreferrer" class="link-card">
-                <span class="lc-icon">📲</span>
-                <span class="lc-title">Scarica APP Controllo — cotrap.it</span>
+                <span class="lc-icon">🌐</span>
+                <span class="lc-title">Pagina download ufficiale — cotrap.it/app-controlli</span>
+                <span class="lc-arrow">→</span>
+            </a>
+            <a href="https://itinerisprod.blob.core.windows.net/app-controllo-biglietto/4.4.10.1919/com.cotrap.appcontrollobiglietti.apk" target="_blank" rel="noopener noreferrer" class="link-card">
+                <span class="lc-icon">⬇️</span>
+                <span class="lc-title">Download diretto APK — versione 4.4.10.1919</span>
                 <span class="lc-arrow">→</span>
             </a>
         </div>
 
         <div class="avviso avviso-info">
             <span class="avviso-icon">ℹ️</span>
-            <div>I video tutorial sono la risorsa più rapida per apprendere visivamente le procedure. Si consiglia di visionarli prima del primo utilizzo dell'app in servizio.</div>
+            <div>I video tutorial sono la risorsa più rapida per apprendere visivamente le procedure. Si consiglia di visionarli prima del primo utilizzo dell'app in servizio. I link di download devono essere aperti direttamente dal dispositivo Android su cui si intende installare l'app.</div>
         </div>
     </section>
 
