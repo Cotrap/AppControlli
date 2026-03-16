@@ -1,0 +1,14 @@
+Buongiorno, 
+di seguito invio link per installare e configurare la nuova app di controllo biglietti online a bordo.
+
+PER AUTISTI
+
+LINK PER SCARICARE APP: https://itinerisprod.blob.core.windows.net/app-controllo-biglietto/4.4.10.1919/com.cotrap.appcontrollobiglietti.apk
+
+LINK VIDEO INSTALLAZIONE APP: https://youtu.be/Kyo_XAA1I1Y
+LINK VIDEO COME IMPOSTARE PASSWORD: https://youtu.be/y17vm4Jlz00   
+
+
+PER CHI GESTISCE IL PERSONALE
+
+LINK PER INSERIMENTO CONTROLLORE E AUTISTI: https://youtu.be/Bq565A9pGok 
