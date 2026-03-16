@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Guida completa all'app Itineris Controllo Biglietti: installazione, login, scansione, rapportino e risoluzione problemi." />
+    <title>Guida APP Controllo — Itineris</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           VARIABILI
+           ============================================ */
+        :root {
+            --primary: #009B3A;
+            --primary-dark: #007A2F;
+            --primary-light: #2DB84B;
+            --primary-faint: #e8f7ee;
+            --secondary: #555555;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --warning-bg: #fffbeb;
+            --error: #ef4444;
+            --error-bg: #fef2f2;
+            --info: #0ea5e9;
+            --info-bg: #f0f9ff;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --sidebar-width: 280px;
+            --header-height: 64px;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: var(--font);
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: var(--header-height);
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0 1.5rem;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+        .hamburger-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            color: white;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        .header-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        .header-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.02em;
+        }
+        .header-subtitle {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.75);
+            font-weight: 400;
+        }
+        .header-badge {
+            margin-left: auto;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.05em;
+        }
+
+        /* ============================================
+           LAYOUT
+           ============================================ */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+            padding-top: var(--header-height);
+        }
+
+        /* ============================================
+           SIDEBAR
+           ============================================ */
+        .sidebar {
+            width: var(--sidebar-width);
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            bottom: 0;
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            overflow-y: auto;
+            z-index: 900;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-inner { padding: 1.25rem 0; }
+        .sidebar-section-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray-400);
+            padding: 0.75rem 1.25rem 0.35rem;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.6rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            cursor: pointer;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all 0.15s ease;
+        }
+        .nav-item:hover {
+            background: var(--primary-faint);
+            color: var(--primary-dark);
+            border-left-color: var(--primary-light);
+        }
+        .nav-item.active {
+            background: var(--primary-faint);
+            color: var(--primary-dark);
+            border-left-color: var(--primary);
+            font-weight: 600;
+        }
+        .nav-item-icon {
+            font-size: 1rem;
+            width: 22px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .sidebar-progress {
+            padding: 1rem 1.25rem;
+            margin-top: 0.5rem;
+        }
+        .progress-label {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+        .progress-bar {
+            height: 5px;
+            background: var(--gray-200);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 99px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 850;
+        }
+
+        /* ============================================
+           MAIN CONTENT
+           ============================================ */
+        main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            min-width: 0;
+        }
+        .content-wrapper {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 5rem;
+        }
+
+        /* ============================================
+           SEZIONI
+           ============================================ */
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: calc(var(--header-height) + 1.5rem);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+        .section-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--primary-faint);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        .section-num {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.1rem;
+        }
+        h2.section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            line-height: 1.2;
+        }
+
+        /* ============================================
+           HERO INTRO
+           ============================================ */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            color: white;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '📱';
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 5rem;
+            opacity: 0.15;
+        }
+        .hero-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 0.5rem;
+        }
+        .hero h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.85);
+            max-width: 480px;
+            line-height: 1.6;
+        }
+        .hero-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+        }
+        .hero-chip {
+            background: rgba(255,255,255,0.18);
+            color: white;
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 4px 12px;
+            border-radius: 99px;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+
+        /* ============================================
+           TIPOGRAFIA CONTENUTO
+           ============================================ */
+        .section p {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            margin-bottom: 1rem;
+            line-height: 1.75;
+        }
+        .section h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin: 1.5rem 0 0.6rem;
+        }
+
+        /* ============================================
+           STEPS (passaggi numerati)
+           ============================================ */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin: 1.25rem 0;
+        }
+        .step {
+            display: flex;
+            gap: 1rem;
+            position: relative;
+        }
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 17px;
+            top: 38px;
+            bottom: 0;
+            width: 2px;
+            background: var(--gray-200);
+        }
+        .step-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .step-body {
+            padding-bottom: 1.4rem;
+            padding-top: 0.4rem;
+        }
+        .step-body strong {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.3rem;
+        }
+        .step-body p, .step-body span {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           AVVISI / CALLOUT
+           ============================================ */
+        .avviso {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1rem 1.1rem;
+            border-radius: var(--radius-md);
+            margin: 1.1rem 0;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        .avviso-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+        .avviso-info { background: var(--info-bg); border-left: 4px solid var(--info); }
+        .avviso-info .avviso-icon { color: var(--info); }
+        .avviso-warning { background: var(--warning-bg); border-left: 4px solid var(--warning); }
+        .avviso-warning .avviso-icon { color: var(--warning); }
+        .avviso-success { background: #f0fdf4; border-left: 4px solid var(--success); }
+        .avviso-success .avviso-icon { color: var(--success); }
+        .avviso-error { background: var(--error-bg); border-left: 4px solid var(--error); }
+        .avviso-error .avviso-icon { color: var(--error); }
+        .avviso b { color: var(--gray-800); }
+
+        /* ============================================
+           ESITO CARDS (risultati scansione)
+           ============================================ */
+        .esito-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin: 1.25rem 0;
+        }
+        .esito-card {
+            border-radius: var(--radius-md);
+            padding: 1.1rem 1.15rem;
+            border: 1.5px solid transparent;
+        }
+        .esito-card.valido { background: #f0fdf4; border-color: #bbf7d0; }
+        .esito-card.non-valido { background: #fef2f2; border-color: #fecaca; }
+        .esito-card.eccezione { background: #fffbeb; border-color: #fde68a; }
+        .esito-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .esito-card.valido .esito-header { color: #15803d; }
+        .esito-card.non-valido .esito-header { color: #b91c1c; }
+        .esito-card.eccezione .esito-header { color: #92400e; }
+        .esito-card p { font-size: 0.83rem; color: var(--gray-600); margin: 0; }
+        .esito-card ul { font-size: 0.83rem; color: var(--gray-600); padding-left: 1.1rem; margin-top: 0.4rem; }
+        .esito-card ul li { margin-bottom: 0.2rem; }
+
+        /* ============================================
+           MOTIVAZIONI NON VALIDO
+           ============================================ */
+        .motivi-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .motivo-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.7rem 1rem;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+        }
+        .motivo-item .mi-icon {
+            font-size: 1rem;
+            width: 22px;
+            text-align: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .motivo-item strong { display: block; color: var(--gray-800); font-size: 0.875rem; }
+        .motivo-item span { color: var(--gray-500); font-size: 0.82rem; }
+
+        /* ============================================
+           TROUBLESHOOTING
+           ============================================ */
+        .faq-item {
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.6rem;
+            overflow: hidden;
+        }
+        .faq-question {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.9rem 1.1rem;
+            cursor: pointer;
+            background: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            user-select: none;
+            transition: background 0.15s;
+        }
+        .faq-question:hover { background: var(--gray-50); }
+        .faq-question .fq-icon { font-size: 1rem; }
+        .faq-question .fq-arrow {
+            margin-left: auto;
+            color: var(--gray-400);
+            transition: transform 0.2s;
+            font-style: normal;
+            font-size: 0.75rem;
+        }
+        .faq-item.open .fq-arrow { transform: rotate(180deg); }
+        .faq-answer {
+            display: none;
+            padding: 0.85rem 1.1rem 1rem 2.6rem;
+            background: var(--gray-50);
+            border-top: 1px solid var(--gray-200);
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+        .faq-item.open .faq-answer { display: block; }
+        .faq-answer ul { padding-left: 1.2rem; margin-top: 0.4rem; }
+        .faq-answer ul li { margin-bottom: 0.3rem; }
+        .faq-answer code {
+            background: var(--gray-200);
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            font-family: monospace;
+        }
+
+        /* ============================================
+           IMMAGINI
+           ============================================ */
+        .img-block {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        .img-block img {
+            max-width: 100%;
+            max-height: 440px;
+            width: auto;
+            height: auto;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            cursor: zoom-in;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: block;
+            margin: 0 auto;
+        }
+        .img-block img:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+        .img-block figcaption {
+            margin-top: 0.5rem;
+            font-size: 0.78rem;
+            color: var(--gray-400);
+            font-style: italic;
+        }
+        .img-missing {
+            background: var(--gray-100);
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            text-align: center;
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+
+        /* ============================================
+           LINK CARDS
+           ============================================ */
+        .link-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.85rem 1.1rem;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--gray-800);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.15s ease;
+        }
+        .link-card:hover {
+            border-color: var(--primary);
+            background: var(--primary-faint);
+            color: var(--primary-dark);
+            transform: translateX(3px);
+        }
+        .link-card .lc-icon { font-size: 1.2rem; }
+        .link-card .lc-title { flex: 1; }
+        .link-card .lc-arrow { color: var(--gray-400); font-size: 0.85rem; }
+        .link-card:hover .lc-arrow { color: var(--primary); }
+
+        /* ============================================
+           INFO BOX
+           ============================================ */
+        .info-box {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.4rem;
+            margin: 1.25rem 0;
+        }
+        .info-box-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--gray-700);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .info-row {
+            display: flex;
+            gap: 0.6rem;
+            font-size: 0.875rem;
+            padding: 0.35rem 0;
+            border-bottom: 1px solid var(--gray-100);
+            align-items: flex-start;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-row .ir-label { color: var(--gray-500); min-width: 140px; flex-shrink: 0; }
+        .info-row .ir-value { color: var(--gray-800); font-weight: 500; }
+
+        /* ============================================
+           CHECKLIST
+           ============================================ */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0.75rem 0;
+        }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.4rem 0;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            line-height: 1.55;
+        }
+        .checklist li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* ============================================
+           PILL BADGE
+           ============================================ */
+        .badge {
+            display: inline-block;
+            padding: 2px 9px;
+            border-radius: 99px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .badge-android { background: #d4edda; color: #155724; }
+        .badge-required { background: #fde8e8; color: #c53030; }
+        .badge-optional { background: #e8f4fd; color: #1a6c9a; }
+
+        /* ============================================
+           IMAGE MODAL
+           ============================================ */
+        .img-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .img-modal.open { display: flex; }
+        .img-modal img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: var(--radius-md);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+        }
+        .img-modal-close {
+            position: fixed;
+            top: 1.25rem;
+            right: 1.5rem;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            font-size: 1.25rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+        .img-modal-close:hover { background: rgba(255,255,255,0.3); }
+
+        /* ============================================
+           SCROLL-TO-TOP
+           ============================================ */
+        #scrollTop {
+            position: fixed;
+            bottom: 1.75rem;
+            right: 1.75rem;
+            width: 44px;
+            height: 44px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 800;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        #scrollTop:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        #scrollTop.visible { display: flex; }
+
+        /* ============================================
+           DIVIDER
+           ============================================ */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--gray-200);
+            margin: 2rem 0;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+                box-shadow: var(--shadow-xl, 0 20px 40px rgba(0,0,0,0.2));
+            }
+            .sidebar-overlay.open { display: block; }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
+            main { margin-left: 0; }
+            .content-wrapper { padding: 1.5rem 1rem 4rem; }
+            .hero { padding: 1.75rem 1.25rem; }
+            .hero h1 { font-size: 1.45rem; }
+            .esito-grid { grid-template-columns: 1fr; }
+            #scrollTop { bottom: 1rem; right: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+    <button class="hamburger-btn" id="menuBtn" aria-label="Apri menu">☰</button>
+    <div class="header-logo">📱</div>
+    <div>
+        <div class="header-title">APP Controllo Biglietti</div>
+        <div class="header-subtitle">Itineris — Guida Operativa</div>
+    </div>
+    <span class="header-badge">COTRAP</span>
+</header>
+
+<!-- ============ OVERLAY ============ -->
+<div class="sidebar-overlay" id="overlay"></div>
+
+<!-- ============ SIDEBAR ============ -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+        <div class="sidebar-section-label">Panoramica</div>
+        <a class="nav-item" href="#intro"><span class="nav-item-icon">📋</span>Introduzione</a>
+
+        <div class="sidebar-section-label" style="margin-top:0.5rem;">Guida Passo-Passo</div>
+        <a class="nav-item" href="#installazione"><span class="nav-item-icon">📲</span>1. Installazione</a>
+        <a class="nav-item" href="#primo-avvio"><span class="nav-item-icon">🚀</span>2. Primo Avvio</a>
+        <a class="nav-item" href="#login"><span class="nav-item-icon">🔐</span>3. Login</a>
+        <a class="nav-item" href="#scansione"><span class="nav-item-icon">📷</span>4. Scansione Biglietto</a>
+        <a class="nav-item" href="#esiti"><span class="nav-item-icon">🔍</span>5. Esiti e Azioni</a>
+        <a class="nav-item" href="#fine-controllo"><span class="nav-item-icon">🏁</span>6. Fine Controllo</a>
+        <a class="nav-item" href="#rapportino"><span class="nav-item-icon">📨</span>7. Invio Rapportino</a>
+
+        <div class="sidebar-section-label" style="margin-top:0.5rem;">Supporto</div>
+        <a class="nav-item" href="#problemi"><span class="nav-item-icon">🛠️</span>Risoluzione Problemi</a>
+        <a class="nav-item" href="#link-utili"><span class="nav-item-icon">🔗</span>Video Tutorial</a>
+
+        <div class="sidebar-progress">
+            <div class="progress-label">Progresso lettura</div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+    </div>
+</nav>
+
+<!-- ============ MAIN ============ -->
+<main>
+<div class="content-wrapper">
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-label">Guida Operativa Completa</div>
+        <h1>APP Controllo Biglietti</h1>
+        <p>Tutto quello che serve per usare l'app <strong>Itineris</strong> durante le verifiche a bordo: installazione, login, scansione biglietti, gestione esiti e invio rapportino.</p>
+        <div class="hero-chips">
+            <span class="hero-chip">📱 Solo Android</span>
+            <span class="hero-chip">📷 Scansione QR</span>
+            <span class="hero-chip">📨 Rapportino automatico</span>
+            <span class="hero-chip">🔄 Sempre aggiornata</span>
+        </div>
+    </div>
+
+    <!-- ==============================
+         1. INTRODUZIONE
+         ============================== -->
+    <section class="section" id="intro">
+        <div class="section-header">
+            <div class="section-icon">📋</div>
+            <div>
+                <div class="section-num">Panoramica</div>
+                <h2 class="section-title">Introduzione all'App</h2>
+            </div>
+        </div>
+
+        <p>L'app <strong>Itineris</strong> è lo strumento ufficiale COTRAP per il controllo dei biglietti a bordo. Permette ai verificatori di scansionare il QR code di ogni biglietto, ricevere immediatamente l'esito della validità, gestire le eccezioni e inviare il rapportino di fine turno direttamente dall'app.</p>
+
+        <div class="info-box">
+            <div class="info-box-title">Informazioni Generali</div>
+            <div class="info-row"><span class="ir-label">Nome app</span><span class="ir-value">Itineris</span></div>
+            <div class="info-row"><span class="ir-label">Piattaforma</span><span class="ir-value"><span class="badge badge-android">Android</span> (solo Android)</span></div>
+            <div class="info-row"><span class="ir-label">Distribuzione</span><span class="ir-value">APK diretto (non da Play Store)</span></div>
+            <div class="info-row"><span class="ir-label">Funzione principale</span><span class="ir-value">Controllo biglietti tramite QR code</span></div>
+            <div class="info-row"><span class="ir-label">Aggiornamenti</span><span class="ir-value">Il link di download è sempre aggiornato all'ultima versione</span></div>
+        </div>
+
+        <div class="avviso avviso-info">
+            <span class="avviso-icon">ℹ️</span>
+            <div>L'app <b>non è disponibile su Google Play Store</b>: viene distribuita come file APK tramite link diretto. Per questo motivo è necessario abilitare l'installazione da <em>fonti sconosciute</em> (vedi sezione Installazione).</div>
+        </div>
+
+        <h3>Chi usa questa app?</h3>
+        <ul class="checklist">
+            <li><strong>Verificatori / Controllori:</strong> eseguono il controllo dei biglietti sui passeggeri, inseriscono il comune di salita e discesa.</li>
+            <li><strong>Autisti (dove applicabile):</strong> possono utilizzare l'app per verificare la validità dei titoli di viaggio. Il campo <em>Comune di salita</em> potrebbe non essere richiesto.</li>
+        </ul>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ==============================
+         2. INSTALLAZIONE
+         ============================== -->
+    <section class="section" id="installazione">
+        <div class="section-header">
+            <div class="section-icon">📲</div>
+            <div>
+                <div class="section-num">Passo 1</div>
+                <h2 class="section-title">Installazione <span class="badge badge-android" style="vertical-align:middle;font-size:0.65rem;">Solo Android</span></h2>
+            </div>
+        </div>
+
+        <p>L'app si scarica come file <strong>APK</strong> dal sito ufficiale COTRAP. Il link è sempre aggiornato con l'ultima versione disponibile: non è necessario cercare altrove o installare versioni precedenti.</p>
+
+        <div class="link-cards">
+            <a href="https://www.cotrap.it/app-controlli/" target="_blank" rel="noopener noreferrer" class="link-card">
+                <span class="lc-icon">📲</span>
+                <span class="lc-title">Scarica APP Controllo Biglietti — cotrap.it</span>
+                <span class="lc-arrow">→</span>
+            </a>
+        </div>
+
+        <div class="avviso avviso-info">
+            <span class="avviso-icon">ℹ️</span>
+            <div><b>Importante:</b> Apri questo link <b>dal dispositivo Android</b> su cui vuoi installare l'app, non da un PC o altro dispositivo.</div>
+        </div>
+
+        <h3>Procedura di installazione</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-body">
+                    <strong>Apri il link di download dal browser Android</strong>
+                    <span>Tocca il link qui sopra oppure digita <code>cotrap.it/app-controlli</code> nel browser del telefono (Chrome, Firefox, ecc.).</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-body">
+                    <strong>Scarica il file APK</strong>
+                    <span>Tocca il pulsante <em>"Scarica"</em> (o <em>"Download"</em>) nella pagina. Il file verrà salvato nella cartella <strong>Download</strong> del dispositivo.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-body">
+                    <strong>Apri il file scaricato</strong>
+                    <span>Apri il <strong>Gestore File</strong> (o <em>File Manager</em>) e naviga nella cartella <em>Download</em>. Tocca il file <code>.apk</code> scaricato per avviare l'installazione.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-body">
+                    <strong>Abilita le fonti sconosciute (se richiesto)</strong>
+                    <span>Android potrebbe bloccare l'installazione di app non provenienti dal Play Store. Segui le istruzioni nel riquadro qui sotto.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-body">
+                    <strong>Completa l'installazione</strong>
+                    <span>Tocca <em>"Installa"</em> nella finestra di dialogo. Al termine troverai l'icona <strong>Itineris</strong> nella schermata principale del telefono.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="avviso avviso-warning">
+            <span class="avviso-icon">⚠️</span>
+            <div>
+                <b>Come abilitare le fonti sconosciute:</b><br>
+                Se Android blocca l'installazione, apparirà un messaggio tipo <em>"Installazione bloccata"</em>.
+                <ul style="margin-top:0.4rem; padding-left:1.1rem;">
+                    <li>Tocca <strong>Impostazioni</strong> nella finestra di avviso</li>
+                    <li>Attiva l'opzione <em>"Consenti da questa fonte"</em> o <em>"Installa app sconosciute"</em></li>
+                    <li>Torna indietro e riprova l'installazione</li>
+                    <li>Puoi disabilitare nuovamente l'opzione dopo l'installazione per sicurezza</li>
+                </ul>
+                <br><em style="font-size:0.8rem;">Il percorso esatto varia a seconda della versione di Android e del produttore del dispositivo.</em>
+            </div>
+        </div>
+
+        <figure class="img-block">
+            <img src="img/app_installazione.png" alt="Schermata di installazione APK Itineris" onclick="openModal(this)">
+            <figcaption>Processo di installazione dell'app Itineris tramite APK</figcaption>
+        </figure>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ==============================
+         3. PRIMO AVVIO
+         ============================== -->
+    <section class="section" id="primo-avvio">
+        <div class="section-header">
+            <div class="section-icon">🚀</div>
+            <div>
+                <div class="section-num">Passo 2</div>
+                <h2 class="section-title">Primo Avvio</h2>
+            </div>
+        </div>
+
+        <p>Al primo avvio dell'app, Android chiederà di concedere il permesso di accesso alla <strong>fotocamera</strong>. Questo permesso è indispensabile per il funzionamento dell'app: senza di esso non sarà possibile scansionare i QR code dei biglietti.</p>
+
+        <h3>Come rispondere alla richiesta di permesso</h3>
+
+        <div class="esito-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px,1fr));">
+            <div class="esito-card valido">
+                <div class="esito-header">✅ Risposta corretta</div>
+                <p>Seleziona <strong>"Ogni volta che si usa l'app"</strong> (o <em>"Solo durante l'uso"</em>). L'app potrà accedere alla fotocamera ogni volta che viene aperta.</p>
+            </div>
+            <div class="esito-card non-valido">
+                <div class="esito-header">❌ Da evitare</div>
+                <p>Non selezionare <strong>"Nega"</strong> o <strong>"Non consentire"</strong>: l'app non riuscirà a leggere i QR code e sarà inutilizzabile.</p>
+            </div>
+        </div>
+
+        <div class="avviso avviso-info">
+            <span class="avviso-icon">ℹ️</span>
+            <div>
+                <b>Perché serve la fotocamera?</b><br>
+                La fotocamera viene usata esclusivamente per <b>scansionare il QR code</b> stampato sui biglietti dei passeggeri. Non viene utilizzata per scattare foto o video: è uno scanner ottico di codici.
+            </div>
+        </div>
+
+        <div class="avviso avviso-warning">
+            <span class="avviso-icon">⚠️</span>
+            <div>
+                <b>Permesso negato per errore?</b> Puoi ripristinarlo manualmente:<br>
+                <strong>Impostazioni Android → App → Itineris → Autorizzazioni → Fotocamera → Consenti</strong>
+            </div>
+        </div>
+
+        <figure class="img-block">
+            <img src="img/accesso_fotocamera.png" alt="Richiesta permesso fotocamera" onclick="openModal(this)">
+            <figcaption>Finestra di dialogo per il permesso di accesso alla fotocamera</figcaption>
+        </figure>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ==============================
+         4. LOGIN
+         ============================== -->
+    <section class="section" id="login">
+        <div class="section-header">
+            <div class="section-icon">🔐</div>
+            <div>
+                <div class="section-num">Passo 3</div>
+                <h2 class="section-title">Login e Inizio Controllo</h2>
+            </div>
+        </div>
+
+        <p>Apri l'app Itineris. Nella schermata di login trovi i seguenti campi da compilare prima di iniziare il controllo.</p>
+
+        <div class="info-box">
+            <div class="info-box-title">Campi di Accesso</div>
+            <div class="info-row">
+                <span class="ir-label">Nome account</span>
+                <span class="ir-value">Il tuo indirizzo <strong>email aziendale</strong></span>
+            </div>
+            <div class="info-row">
+                <span class="ir-label">Password</span>
+                <span class="ir-value">La password assegnata <span class="badge badge-required">Maiusc./Min.</span></span>
+            </div>
+            <div class="info-row">
+                <span class="ir-label">Comune di salita</span>
+                <span class="ir-value">Il comune dove salgono i passeggeri controllati <span class="badge badge-required">Solo verificatori</span></span>
+            </div>
+        </div>
+
+        <div class="avviso avviso-warning">
+            <span class="avviso-icon">⚠️</span>
+            <div>
+                <b>Attenzione alla password:</b> Il campo è <strong>case-sensitive</strong>, cioè distingue tra lettere maiuscole e minuscole. Se la password contiene caratteri maiuscoli, digitarli esattamente come indicato. Verificare che il tasto <em>Caps Lock</em> o la correzione automatica del telefono non modifichino i caratteri.
+            </div>
+        </div>
+
+        <h3>Campo "Comune di salita"</h3>
+        <p>Questo campo indica il <strong>comune di partenza</strong> della corsa o il luogo dove effettuerai il controllo. Serve per georeferenziare il rapportino di verifica. È obbligatorio per i verificatori; gli autisti potrebbero non vederlo o non doverlo compilare.</p>
+
+        <div class="avviso avviso-info">
+            <span class="avviso-icon">ℹ️</span>
+            <div><b>Credenziali dimenticate?</b> Contatta l'ufficio competente per il ripristino dell'accesso. Non è possibile recuperarle autonomamente dall'app.</div>
+        </div>
+
+        <figure class="img-block">
+            <img src="img/login_app.png" alt="Schermata di login app Itineris" onclick="openModal(this)">
+            <figcaption>Schermata di login dell'app Itineris con i campi da compilare</figcaption>
+        </figure>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ==============================
+         5. SCANSIONE
+         ============================== -->
+    <section class="section" id="scansione">
+        <div class="section-header">
+            <div class="section-icon">📷</div>
+            <div>
+                <div class="section-num">Passo 4</div>
+                <h2 class="section-title">Scansione del Biglietto</h2>
+            </div>
+        </div>
+
+        <p>Una volta effettuato il login, l'app avvia automaticamente la fotocamera per la scansione. Inquadra il <strong>QR code</strong> presente sul biglietto del passeggero: l'app lo legge istantaneamente e fornisce l'esito.</p>
+
+        <h3>Come scansionare correttamente</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-body">
+                    <strong>Chiedi il biglietto al passeggero</strong>
+                    <span>Può essere su smartphone (biglietto digitale) oppure cartaceo.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-body">
+                    <strong>Inquadra il QR code con la fotocamera</strong>
+                    <span>Tieni il telefono a 10–20 cm dal biglietto. Il QR code deve essere ben illuminato e a fuoco. L'app scansiona automaticamente: non è necessario premere nessun pulsante.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-body">
+                    <strong>Leggi l'esito a schermo</strong>
+                    <span>L'app mostra immediatamente il risultato: biglietto valido o non valido. Segui le istruzioni nella sezione successiva per ogni caso.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="avviso avviso-info">
+            <span class="avviso-icon">ℹ️</span>
+            <div><b>Scansione difficoltosa?</b> Se il QR non viene letto: avvicina o allontana il telefono, migliora l'illuminazione, chiedi al passeggero di aumentare la luminosità dello schermo se è un biglietto digitale.</div>
+        </div>
+
+        <figure class="img-block">
+            <img src="img/salitacontrollo.png" alt="Schermata di controllo e scansione biglietto" onclick="openModal(this)">
+            <figcaption>Schermata attiva durante il controllo: inquadrare il QR code del biglietto</figcaption>
+        </figure>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ==============================
+         6. ESITI E AZIONI
+         ============================== -->
+    <section class="section" id="esiti">
+        <div class="section-header">
+            <div class="section-icon">🔍</div>
+            <div>
+                <div class="section-num">Passo 5</div>
+                <h2 class="section-title">Esiti della Scansione e Azioni</h2>
+            </div>
+        </div>
+
+        <p>Dopo la scansione del QR code, l'app restituisce uno dei seguenti esiti. Per ogni esito è prevista un'azione specifica da parte del verificatore.</p>
+
+        <div class="esito-grid">
+            <div class="esito-card valido">
+                <div class="esito-header">✅ Biglietto Valido</div>
+                <p>Il QR code è stato riconosciuto e il biglietto risulta regolare. Prima di confermare:</p>
+                <ul>
+                    <li>Verifica che la <strong>tratta</strong> corrisponda al percorso in corso</li>
+                    <li>Verifica che l'<strong>orario</strong> sia coerente</li>
+                    <li>Se tutto è corretto, premi <strong>SÌ</strong> per validare</li>
+                </ul>
+            </div>
+            <div class="esito-card non-valido">
+                <div class="esito-header">❌ Biglietto Non Valido</div>
+                <p>Il biglietto non è accettabile. Occorre:</p>
+                <ul>
+                    <li>Premere <strong>"Azioni"</strong></li>
+                    <li>Selezionare la <strong>motivazione</strong> appropriata</li>
+                    <li>Confermare</li>
+                </ul>
+            </div>
+            <div class="esito-card eccezione">
+                <div class="esito-header">⚠️ Eccezione / Accettato a Bordo</div>
+                <p>In alcuni casi particolari (es. corsa saltata, problema tecnico) è possibile accettare il biglietto <em>su autorizzazione</em>. Seleziona <strong>"Accettato a bordo"</strong> e registra il motivo.</p>
+            </div>
+        </div>
+
+        <h3>Motivazioni disponibili per biglietto non valido</h3>
+        <p>Quando premi "Azioni" su un biglietto non valido, l'app mostra un elenco di motivazioni. Scegli quella che descrive meglio la situazione:</p>
+
+        <div class="motivi-list">
+            <div class="motivo-item">
+                <span class="mi-icon">🕐</span>
+                <div>
+                    <strong>Biglietto scaduto</strong>
+                    <span>Il biglietto è stato acquistato ma è fuori dal periodo di validità temporale.</span>
+                </div>
+            </div>
+            <div class="motivo-item">
+                <span class="mi-icon">🔄</span>
+                <div>
+                    <strong>Biglietto già utilizzato</strong>
+                    <span>Il QR code risulta già stato scansionato in precedenza (doppio viaggio con lo stesso biglietto).</span>
+                </div>
+            </div>
+            <div class="motivo-item">
+                <span class="mi-icon">🚌</span>
+                <div>
+                    <strong>Tratta errata</strong>
+                    <span>Il biglietto è valido ma copre una tratta diversa da quella che il passeggero sta percorrendo.</span>
+                </div>
+            </div>
+            <div class="motivo-item">
+                <span class="mi-icon">❓</span>
+                <div>
+                    <strong>QR non valido / non riconosciuto</strong>
+                    <span>Il codice non appartiene al sistema Itineris o è stato alterato.</span>
+                </div>
+            </div>
+            <div class="motivo-item">
+                <span class="mi-icon">🎫</span>
+                <div>
+                    <strong>Titolo non abilitato / sospeso</strong>
+                    <span>Il titolo di viaggio esiste ma non è attivo (es. abbonamento scaduto o sospeso).</span>
+                </div>
+            </div>
+        </div>
+
+        <h3>Cosa verificare su un biglietto "Valido"</h3>
+        <div class="avviso avviso-warning">
+            <span class="avviso-icon">⚠️</span>
+            <div>
+                <b>Non confermare immediatamente!</b> Anche su un biglietto marcato come valido, è obbligatorio verificare manualmente:
+                <ul style="margin-top:0.4rem; padding-left:1.1rem;">
+                    <li><strong>Tratta:</strong> il biglietto deve coprire il percorso attuale (es. non può valere da A a B se il passeggero è su un mezzo da C a D)</li>
+                    <li><strong>Orario:</strong> verifica che l'orario di validità sia compatibile con quello della corsa in corso</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>Caso speciale: "Accettato a bordo"</h3>
+        <p>L'opzione <strong>"Accettato a bordo"</strong> va usata <em>solo su esplicita autorizzazione</em> e quando il biglietto risulta non valido per una causa riconducibile all'azienda (es. corsa precedente saltata, guasto al sistema di vendita). Non va usata per coprire irregolarità dei passeggeri.</p>
+        <div class="avviso avviso-error">
+            <span class="avviso-icon">❌</span>
+            <div><b>Uso improprio:</b> L'opzione "Accettato a bordo" viene tracciata nel rapportino e può essere soggetta a verifica da parte dell'ufficio. Usarla solo nei casi previsti e su autorizzazione.</div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ==============================
+         7. FINE CONTROLLO
+         ============================== -->
+    <section class="section" id="fine-controllo">
+        <div class="section-header">
+            <div class="section-icon">🏁</div>
+            <div>
+                <div class="section-num">Passo 6</div>
+                <h2 class="section-title">Fine Controllo</h2>
+            </div>
+        </div>
+
+        <p>Quando tutti i passeggeri sono stati controllati — o al termine della fermata / corsa — occorre chiudere la sessione di controllo attiva.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-body">
+                    <strong>Premi il pulsante "TERMINA"</strong>
+                    <span>Il pulsante si trova nella schermata di scansione attiva. Toccalo quando hai terminato di controllare tutti i biglietti della corsa o della fermata.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-body">
+                    <strong>Inserisci il Comune di discesa (solo verificatori)</strong>
+                    <span>Indica il comune in cui termina il tratto di verifica. Questo dato viene incluso nel rapportino insieme al comune di salita inserito al login.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-body">
+                    <strong>Conferma</strong>
+                    <span>Dopo la conferma, la sessione di controllo viene chiusa e il rapportino viene generato automaticamente. Sarai reindirizzato alla Home dell'app.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="avviso avviso-info">
+            <span class="avviso-icon">ℹ️</span>
+            <div><b>Non dimenticare TERMINA!</b> Se non chiudi la sessione, i dati di controllo potrebbero non venire salvati correttamente nel rapportino. Ricordati sempre di premere TERMINA a fine corsa.</div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ==============================
+         8. RAPPORTINO
+         ============================== -->
+    <section class="section" id="rapportino">
+        <div class="section-header">
+            <div class="section-icon">📨</div>
+            <div>
+                <div class="section-num">Passo 7</div>
+                <h2 class="section-title">Invio del Rapportino</h2>
+            </div>
+        </div>
+
+        <p>Al termine del turno di verifica, il rapportino deve essere inviato via email all'ufficio competente. Il rapportino contiene il riepilogo di tutti i biglietti controllati, con esiti e motivazioni.</p>
+
+        <h3>Cosa contiene il rapportino</h3>
+        <ul class="checklist">
+            <li>Data e ora del controllo</li>
+            <li>Nome del verificatore (account)</li>
+            <li>Comune di salita e discesa</li>
+            <li>Numero totale di biglietti scansionati</li>
+            <li>Dettaglio per ogni biglietto: esito, motivazione (se non valido), eventuale "Accettato a bordo"</li>
+        </ul>
+
+        <h3>Come inviare il rapportino</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-body">
+                    <strong>Vai alla Home dell'app</strong>
+                    <span>Dalla schermata principale, individua l'<strong>icona del rapportino</strong> (solitamente un'icona a forma di documento o lista).</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-body">
+                    <strong>Apri il rapporto</strong>
+                    <span>Tocca il rapportino dalla lista per aprirlo. Puoi verificare il contenuto prima di inviarlo.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-body">
+                    <strong>Premi l'icona di invio (busta)</strong>
+                    <span>Tocca l'icona con la <strong>busta email</strong> per avviare l'invio del rapportino.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-body">
+                    <strong>Conferma con "SÌ"</strong>
+                    <span>Apparirà una finestra di conferma. Premi <strong>"SÌ"</strong> per inviare. Il rapporto sarà trasmesso automaticamente via email all'ufficio competente.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="avviso avviso-success">
+            <span class="avviso-icon">✅</span>
+            <div><b>Invio riuscito:</b> Dopo la conferma, il rapportino viene inviato automaticamente. Non è necessario aprire l'app email del telefono né inserire indirizzi manualmente.</div>
+        </div>
+
+        <div class="avviso avviso-warning">
+            <span class="avviso-icon">⚠️</span>
+            <div><b>Connessione necessaria:</b> Per inviare il rapportino, il dispositivo deve avere una connessione internet attiva (dati mobili o Wi-Fi). Se la connessione è assente, riprova non appena disponibile.</div>
+        </div>
+
+        <figure class="img-block">
+            <img src="img/invio_rapportino.png" alt="Schermata invio rapportino" onclick="openModal(this)">
+            <figcaption>Schermata di invio del rapportino di fine verifica</figcaption>
+        </figure>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ==============================
+         9. RISOLUZIONE PROBLEMI
+         ============================== -->
+    <section class="section" id="problemi">
+        <div class="section-header">
+            <div class="section-icon">🛠️</div>
+            <div>
+                <div class="section-num">Supporto</div>
+                <h2 class="section-title">Risoluzione Problemi Comuni</h2>
+            </div>
+        </div>
+
+        <p>In questa sezione trovi le soluzioni ai problemi più frequenti riscontrati durante l'utilizzo dell'app.</p>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="fq-icon">🔐</span>
+                <span>Non riesco ad accedere: credenziali errate</span>
+                <i class="fq-arrow">▼</i>
+            </div>
+            <div class="faq-answer">
+                <ul>
+                    <li>Verifica di aver inserito l'<strong>email completa</strong> nel campo "Nome account" (es. <code>nome.cognome@cotrap.it</code>)</li>
+                    <li>La password è <strong>case-sensitive</strong>: controlla maiuscole/minuscole e che la correzione automatica non abbia modificato i caratteri</li>
+                    <li>Disattiva temporaneamente la correzione automatica della tastiera</li>
+                    <li>Se il problema persiste, contatta l'ufficio per il ripristino della password</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="fq-icon">📷</span>
+                <span>La fotocamera non si avvia o non scansiona i QR</span>
+                <i class="fq-arrow">▼</i>
+            </div>
+            <div class="faq-answer">
+                <ul>
+                    <li>Verifica che il permesso fotocamera sia stato concesso: <strong>Impostazioni → App → Itineris → Autorizzazioni → Fotocamera</strong></li>
+                    <li>Chiudi completamente l'app e riaprila</li>
+                    <li>Se il QR è su schermo, aumenta la luminosità del dispositivo del passeggero</li>
+                    <li>Tieni il telefono tra 10 e 20 cm dal QR code</li>
+                    <li>Assicurati che l'obiettivo della fotocamera non sia sporco o coperto</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="fq-icon">📲</span>
+                <span>L'app non si installa o viene bloccata da Android</span>
+                <i class="fq-arrow">▼</i>
+            </div>
+            <div class="faq-answer">
+                <ul>
+                    <li>Devi abilitare l'installazione da fonti sconosciute: <strong>Impostazioni → Sicurezza → Installa app sconosciute</strong> (il percorso varia per modello)</li>
+                    <li>Se la memoria del dispositivo è quasi piena, libera spazio e riprova</li>
+                    <li>Assicurati di aver scaricato il file APK completo: se il download è stato interrotto, riscaricalo</li>
+                    <li>Verifica che la versione di Android sia compatibile (Android 6.0 o superiore consigliato)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="fq-icon">📨</span>
+                <span>Il rapportino non viene inviato</span>
+                <i class="fq-arrow">▼</i>
+            </div>
+            <div class="faq-answer">
+                <ul>
+                    <li>Verifica di avere una connessione internet attiva (dati mobili o Wi-Fi)</li>
+                    <li>Attiva/disattiva la modalità aereo e riprova</li>
+                    <li>Se sei in zona con scarsa ricezione, spostati in un'area con segnale migliore</li>
+                    <li>Riprova l'invio dopo qualche minuto</li>
+                    <li>Se il problema persiste, contatta l'ufficio competente e informa del mancato invio</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="fq-icon">🔄</span>
+                <span>L'app si blocca o si chiude improvvisamente</span>
+                <i class="fq-arrow">▼</i>
+            </div>
+            <div class="faq-answer">
+                <ul>
+                    <li>Chiudi completamente l'app dalla gestione delle app aperte e riaprila</li>
+                    <li>Riavvia il dispositivo</li>
+                    <li>Verifica che ci sia spazio disponibile in memoria (almeno 500 MB liberi)</li>
+                    <li>Controlla se è disponibile una versione aggiornata dell'app sul sito COTRAP</li>
+                    <li>Se il crash avviene ripetutamente, disinstalla e reinstalla l'app</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="fq-icon">❓</span>
+                <span>Il biglietto appare valido ma la tratta non corrisponde: cosa faccio?</span>
+                <i class="fq-arrow">▼</i>
+            </div>
+            <div class="faq-answer">
+                <p>Se il biglietto è tecnicamente valido ma la tratta non è quella corretta per la corsa in corso, <strong>non premere SÌ</strong>. Procedi così:</p>
+                <ul>
+                    <li>Premi <strong>"Azioni"</strong> sulla schermata dell'esito</li>
+                    <li>Seleziona <strong>"Tratta errata"</strong> come motivazione</li>
+                    <li>Applica la procedura prevista per i passeggeri senza titolo valido per quella tratta</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="avviso avviso-info">
+            <span class="avviso-icon">ℹ️</span>
+            <div>Per problemi non risolti con le indicazioni sopra, contatta l'ufficio di supporto COTRAP. Descrivi il problema nel dettaglio: tipo di dispositivo, versione Android, messaggio di errore visualizzato.</div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ==============================
+         10. LINK UTILI
+         ============================== -->
+    <section class="section" id="link-utili">
+        <div class="section-header">
+            <div class="section-icon">🔗</div>
+            <div>
+                <div class="section-num">Risorse</div>
+                <h2 class="section-title">Video Tutorial</h2>
+            </div>
+        </div>
+
+        <p>Video guide ufficiali per l'utilizzo dell'app Itineris Controllo Biglietti. Consigliati per chi si avvicina all'app per la prima volta.</p>
+
+        <div class="link-cards">
+            <a href="https://youtu.be/Kyo_XAA1I1Y" target="_blank" rel="noopener noreferrer" class="link-card">
+                <span class="lc-icon">🎥</span>
+                <span class="lc-title">Video: Installazione App Itineris</span>
+                <span class="lc-arrow">→</span>
+            </a>
+            <a href="https://youtu.be/y17vm4Jlz00" target="_blank" rel="noopener noreferrer" class="link-card">
+                <span class="lc-icon">🔐</span>
+                <span class="lc-title">Video: Impostazione Password</span>
+                <span class="lc-arrow">→</span>
+            </a>
+            <a href="https://youtu.be/Bq565A9pGok" target="_blank" rel="noopener noreferrer" class="link-card">
+                <span class="lc-icon">👤</span>
+                <span class="lc-title">Video: Inserimento Controllori e Autisti</span>
+                <span class="lc-arrow">→</span>
+            </a>
+            <a href="https://www.cotrap.it/app-controlli/" target="_blank" rel="noopener noreferrer" class="link-card">
+                <span class="lc-icon">📲</span>
+                <span class="lc-title">Scarica APP Controllo — cotrap.it</span>
+                <span class="lc-arrow">→</span>
+            </a>
+        </div>
+
+        <div class="avviso avviso-info">
+            <span class="avviso-icon">ℹ️</span>
+            <div>I video tutorial sono la risorsa più rapida per apprendere visivamente le procedure. Si consiglia di visionarli prima del primo utilizzo dell'app in servizio.</div>
+        </div>
+    </section>
+
+</div>
+</main>
+
+<!-- ============ SCROLL TOP ============ -->
+<button id="scrollTop" title="Torna in cima">▲</button>
+
+<!-- ============ IMAGE MODAL ============ -->
+<div class="img-modal" id="imgModal" onclick="closeModal()">
+    <button class="img-modal-close" onclick="closeModal()">✕</button>
+    <img id="modalImg" src="" alt="">
+</div>
+
+<script>
+    // ============ MENU TOGGLE ============
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const menuBtn = document.getElementById('menuBtn');
+
+    menuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+    });
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+    });
+
+    // Chiudi menu su click link (mobile)
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            }
+        });
+    });
+
+    // ============ SCROLL SPY & PROGRESS ============
+    const sections = document.querySelectorAll('section.section');
+    const navItems = document.querySelectorAll('.nav-item');
+    const progressFill = document.getElementById('progressFill');
+    const scrollTopBtn = document.getElementById('scrollTop');
+
+    function onScroll() {
+        // Progress bar
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+        progressFill.style.width = pct + '%';
+
+        // Scroll-to-top
+        scrollTopBtn.classList.toggle('visible', scrollTop > 300);
+
+        // Active nav
+        let current = '';
+        sections.forEach(sec => {
+            const top = sec.getBoundingClientRect().top;
+            if (top <= 100) current = sec.id;
+        });
+        navItems.forEach(item => {
+            const href = item.getAttribute('href');
+            item.classList.toggle('active', href === '#' + current);
+        });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ============ FAQ TOGGLE ============
+    function toggleFaq(btn) {
+        const item = btn.closest('.faq-item');
+        item.classList.toggle('open');
+    }
+
+    // ============ IMAGE MODAL ============
+    const modal = document.getElementById('imgModal');
+    const modalImg = document.getElementById('modalImg');
+
+    function openModal(img) {
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeModal();
+    });
+
+    // ============ IMG ERROR FALLBACK ============
+    document.querySelectorAll('.img-block img').forEach(img => {
+        img.onerror = function() {
+            this.onerror = null;
+            this.style.display = 'none';
+            const missing = document.createElement('div');
+            missing.className = 'img-missing';
+            missing.innerHTML = '🖼️<br>Immagine non disponibile';
+            this.parentElement.insertBefore(missing, this);
+        };
+    });
+</script>
+
+</body>
+</html>
